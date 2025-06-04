@@ -1,21 +1,35 @@
 ﻿<Window x:Class="WpfApp1.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="Task Manager" Height="300" Width="400">
+
+    <!-- Sätter ViewModel som datakälla för hela fönstret -->
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
 
+    <!-- Layoutbehållare för vertikal stapling av komponenter -->
     <StackPanel Margin="20">
+
+        <!-- TextBox som binder mot NewTaskTitle i ViewModel -->
+        <!-- UpdateSourceTrigger=PropertyChanged innebär att ViewModel uppdateras vid varje tangenttryckning -->
         <TextBox Text="{Binding NewTaskTitle, UpdateSourceTrigger=PropertyChanged}" Margin="0 0 0 10"/>
+
+        <!-- Knapp som binder mot ICommand AddTaskCommand i ViewModel -->
+        <!-- När användaren klickar på knappen körs metoden AddTask() via kommandot -->
         <Button Content="Add Task" Command="{Binding AddTaskCommand}" Margin="0 0 0 10"/>
+
+        <!-- Lista som visar uppgifterna (Tasks) med hjälp av ItemsControl -->
+        <!-- ItemsSource binder till ObservableCollection<TaskModel> -->
         <ItemsControl ItemsSource="{Binding Tasks}">
             <ItemsControl.ItemTemplate>
+                <!-- Definierar hur varje enskild TaskModel ska visas -->
                 <DataTemplate>
+                    <!-- Visar uppgiftens titel som text och kryssruta som speglar IsDone -->
                     <CheckBox Content="{Binding Title}" IsChecked="{Binding IsDone}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
